@@ -70,9 +70,9 @@ static dispatch_block_t sendQueuedEventAfterTimeout;
         return sendEvent(event);
     }
 
-    // Check if we've recieved a `k` press while a `j` press is still queued
-    if ([event.characters isEqualToString:@"k"] && queuedEvent != nil) {
-        // Clear the queued j press
+    // Check if we've recieved a `j` press while a `k` press is still queued
+    if ([event.characters isEqualToString:@"j"] && queuedEvent != nil) {
+        // Clear the queued k press
         queuedEvent = nil;
 
         // And cancel its timeout-based-sending.
@@ -84,9 +84,9 @@ static dispatch_block_t sendQueuedEventAfterTimeout;
         return sendEvent(escapeEvent);
     }
 
-    // Check if we have a previous `j` press queued up
+    // Check if we have a previous `k` press queued up
     if (queuedEvent != nil) {
-        // Apply the `j` press
+        // Apply the `k` press
         sendEvent(queuedEvent);
 
         // Clear the queued event so it's not sent again
@@ -97,8 +97,8 @@ static dispatch_block_t sendQueuedEventAfterTimeout;
         dispatch_block_cancel(sendQueuedEventAfterTimeout);
     }
 
-    // Check if we've recieved a "j" keypress
-    if ([event.characters isEqualToString:@"j"]) {
+    // Check if we've recieved a "k" keypress
+    if ([event.characters isEqualToString:@"k"]) {
         // Save a reference to the event for later sending
         queuedEvent = event;
 
@@ -118,7 +118,7 @@ static dispatch_block_t sendQueuedEventAfterTimeout;
             dispatch_get_main_queue(), sendQueuedEventAfterTimeout);
 
         // Return early so that the default implementation
-        // (which would apply our `j` press immediately)
+        // (which would apply our `k` press immediately)
         // is not called.
         return true;
     }
